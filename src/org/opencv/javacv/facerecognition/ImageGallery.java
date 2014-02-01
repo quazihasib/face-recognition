@@ -33,9 +33,9 @@ import android.widget.TextView;
 import android.widget.ViewSwitcher;
  
 public class ImageGallery extends Activity implements
-        AdapterView.OnItemSelectedListener, ViewSwitcher.ViewFactory {
- 
-	
+        AdapterView.OnItemSelectedListener, ViewSwitcher.ViewFactory 
+        {
+
 	labels thelabels;
 	int count=0;
 	Bitmap bmlist[];
@@ -47,7 +47,8 @@ public class ImageGallery extends Activity implements
 	Gallery g;
 	
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) 
+    {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
  
@@ -91,8 +92,10 @@ public class ImageGallery extends Activity implements
     		{
     			File root = new File(mPath);
     			final String fname=thelabels.get(i);
-    	        FilenameFilter pngFilter = new FilenameFilter() {
-    	            public boolean accept(File dir, String name) {
+    	        FilenameFilter pngFilter = new FilenameFilter() 
+    	        {
+    	            public boolean accept(File dir, String name) 
+    	            {
     	                return name.toLowerCase().startsWith(fname.toLowerCase()+"-");
     	            
     	        };
@@ -101,13 +104,15 @@ public class ImageGallery extends Activity implements
     	        if (imageFiles.length>0)
     	        {
     	        	InputStream is;
-					try {
+					try 
+					{
 						is = new FileInputStream(imageFiles[0]);
 						
 						bmlist[count]=BitmapFactory.decodeStream(is);
 						namelist[count]=thelabels.get(i);
-						
-						} catch (FileNotFoundException e) {
+					} 
+					catch (FileNotFoundException e) 
+					{
 						// TODO Auto-generated catch block
 							Log.e("File erro", e.getMessage()+" "+e.getCause());
 							e.printStackTrace();
@@ -117,34 +122,36 @@ public class ImageGallery extends Activity implements
     			count++;       			
     		}
     	}
-
+    	
         g = (Gallery) findViewById(R.id.gallery1);
         g.setAdapter(new ImageAdapter(this));
         g.setOnItemSelectedListener(this);
         
-        
-        buttonBack.setOnClickListener(new View.OnClickListener() {
-        	public void onClick(View v) {
-        		
+        buttonBack.setOnClickListener(new View.OnClickListener() 
+        {
+        	public void onClick(View v)
+        	{
         		finish();
-        		
         	}
         });
         
-        buttonDel.setOnClickListener(new View.OnClickListener() {
-        	public void onClick(View v) {
-        	
+        buttonDel.setOnClickListener(new View.OnClickListener() 
+        {
+        	public void onClick(View v)
+        	{
         		File root = new File(mPath);
     			
-    	        FilenameFilter pngFilter = new FilenameFilter() {
-    	            public boolean accept(File dir, String n) {
-    	            	String s=name.getText().toString();
+    	        FilenameFilter pngFilter = new FilenameFilter() 
+    	        {
+    	            public boolean accept(File dir, String n) 
+    	            {
+    	            	String s = name.getText().toString();
     	                return n.toLowerCase().startsWith(s.toLowerCase()+"-");
-    	            
-    	        };
+    	            };
     	        };
     	        File[] imageFiles = root.listFiles(pngFilter);
-    	        for (File image : imageFiles) {
+    	        for (File image : imageFiles)
+    	        {
     	        	image.delete();
     	        int i;
     	        for (i=0;i<count;i++)
@@ -159,10 +166,7 @@ public class ImageGallery extends Activity implements
     	        			  }
     	        			  count--;
     	        			  refresh();
-    	        			  //     	        			  finish();
-    	        			  // startActivity(getIntent());
-    	        			  
-    	        			  //
+
     	        			  break;
     	        			}
     	        }
@@ -171,20 +175,25 @@ public class ImageGallery extends Activity implements
         });
     }
  
-    public void refresh() {
+    public void refresh() 
+    {
     	g.setAdapter(new ImageAdapter(this)); 
     }
     
-    public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
+    public void onItemSelected(AdapterView<?> parent, View v, int position, long id)
+    {
         //mSwitcher.setImageURI(bmlist[0]);
     	mSwitcher.setImageDrawable(new BitmapDrawable(getResources(),bmlist[position]));
     	name.setText(namelist[position]);
     }
  
-    public void onNothingSelected(AdapterView<?> parent) {
+    public void onNothingSelected(AdapterView<?> parent)
+    {
+    	
     }
  
-    public View makeView() {
+    public View makeView() 
+    {
         ImageView i = new ImageView(this);
         i.setBackgroundColor(0xFF000000);
         i.setScaleType(ImageView.ScaleType.FIT_CENTER);
@@ -195,26 +204,30 @@ public class ImageGallery extends Activity implements
  
     private ImageSwitcher mSwitcher;
  
-    public class ImageAdapter extends BaseAdapter {
-        public ImageAdapter(Context c) {
+    public class ImageAdapter extends BaseAdapter
+    {
+        public ImageAdapter(Context c) 
+        {
             mContext = c;
         }
  
-        public int getCount() {
-        	
-        	
+        public int getCount()
+        {
             return count;
         }
  
-        public Object getItem(int position) {
+        public Object getItem(int position)
+        {
             return bmlist[position];
         }
  
-        public long getItemId(int position) {
+        public long getItemId(int position) 
+        {
             return position;
         }
  
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(int position, View convertView, ViewGroup parent)
+        {
             ImageView i = new ImageView(mContext);
             i.setImageBitmap(bmlist[position]);
             

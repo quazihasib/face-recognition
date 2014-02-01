@@ -14,45 +14,54 @@ import android.hardware.Camera.Size;
 import android.util.AttributeSet;
 import android.util.Log;
 
-public class Tutorial3View extends JavaCameraView {
+public class Tutorial3View extends JavaCameraView
+{
 
     private static final String TAG = "Sample::Tutorial3View";
 
-    public Tutorial3View(Context context, AttributeSet attrs) {
+    public Tutorial3View(Context context, AttributeSet attrs) 
+    {
         super(context, attrs);
      
     }
 
-    public List<String> getEffectList() {
+    public List<String> getEffectList()
+    {
         return mCamera.getParameters().getSupportedColorEffects();
     }
 
-    public boolean isEffectSupported() {
+    public boolean isEffectSupported() 
+    {
         return (mCamera.getParameters().getColorEffect() != null);
     }
 
-    public String getEffect() {
+    public String getEffect()
+    {
         return mCamera.getParameters().getColorEffect();
     }
 
-    public void setEffect(String effect) {
+    public void setEffect(String effect) 
+    {
         Camera.Parameters params = mCamera.getParameters();
         params.setColorEffect(effect);
         mCamera.setParameters(params);
     }
 
-    public List<Size> getResolutionList() {
+    public List<Size> getResolutionList() 
+    {
         return mCamera.getParameters().getSupportedPreviewSizes();
     }
 
-    public void setResolution(Size resolution) {
+    public void setResolution(Size resolution)
+    {
         disconnectCamera();
         mMaxHeight = resolution.height;
         mMaxWidth = resolution.width;
         connectCamera(getWidth(), getHeight());
     }
     
-    public void setResolution(int w,int h) {
+    public void setResolution(int w,int h) 
+    {
         disconnectCamera();
         mMaxHeight = h;
         mMaxWidth = w;
@@ -89,26 +98,33 @@ public class Tutorial3View extends JavaCameraView {
      return	Camera.getNumberOfCameras();
     }
     
-    public Size getResolution() {
+    public Size getResolution()
+    {
         return mCamera.getParameters().getPreviewSize();
     }
 
-    public void takePicture(final String fileName) {
+    public void takePicture(final String fileName) 
+    {
         Log.i(TAG, "Tacking picture");
-        PictureCallback callback = new PictureCallback() {
+        PictureCallback callback = new PictureCallback()
+        {
 
             private String mPictureFileName = fileName;
 
             @Override
-            public void onPictureTaken(byte[] data, Camera camera) {
+            public void onPictureTaken(byte[] data, Camera camera)
+            {
                 Log.i(TAG, "Saving a bitmap to file");
                 Bitmap picture = BitmapFactory.decodeByteArray(data, 0, data.length);
-                try {
+                try 
+                {
                     FileOutputStream out = new FileOutputStream(mPictureFileName);
                     picture.compress(Bitmap.CompressFormat.JPEG, 90, out);
                     picture.recycle();
                     mCamera.startPreview();
-                } catch (Exception e) {
+                }
+                catch (Exception e) 
+                {
                     e.printStackTrace();
                 }
             }

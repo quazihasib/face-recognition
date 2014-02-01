@@ -18,16 +18,17 @@ import android.os.Environment;
 import android.util.Log;
 
 
-public class labels {
-
+public class labels
+{
 	String mPath;
 	 class label
 	{
-		public label(String s, int n) {
+		public label(String s, int n) 
+		{
 			thelabel=s;
 			num=n;
 		}
-		
+
 		int num;
 		String thelabel;
 	}
@@ -50,9 +51,11 @@ public class labels {
 		thelist.add( new label(s,n));
 	}
 	
-	public String get(int i) {
+	public String get(int i)
+	{
 		Iterator<label> Ilabel = thelist.iterator();
-		while (Ilabel.hasNext()) {
+		while (Ilabel.hasNext())
+		{
 			label l = Ilabel.next();
 			if (l.num==i)
 				return l.thelabel;
@@ -60,10 +63,13 @@ public class labels {
 	  return "";
 	}
 	
-	public int get(String s) {
+	public int get(String s)
+	{
 		Iterator<label> Ilabel = thelist.iterator();
-		while (Ilabel.hasNext()) {
+		while (Ilabel.hasNext()) 
+		{
 			label l = Ilabel.next();
+			
 			if (l.thelabel.equalsIgnoreCase(s))
 				return l.num;
 		}
@@ -72,18 +78,22 @@ public class labels {
 	
 	public void Save()
 	{
-		try {
+		try 
+		{
 			File f=new File (mPath+"faces.txt");
 			f.createNewFile();
 			BufferedWriter bw = new BufferedWriter(new FileWriter(f));
 			Iterator<label> Ilabel = thelist.iterator();
-			while (Ilabel.hasNext()) {
+			while (Ilabel.hasNext()) 
+			{
 				label l = Ilabel.next();
 				bw.write(l.thelabel+","+l.num);
 				bw.newLine();
 			}
 			bw.close();
-		} catch (IOException e) {
+		}
+		catch (IOException e) 
+		{
 			// TODO Auto-generated catch block
 			Log.e("error",e.getMessage()+" "+e.getCause());
 			e.printStackTrace();
@@ -92,7 +102,8 @@ public class labels {
 		
 	}
 	
-	public void Read() {
+	public void Read()
+	{
 		try {
 
 			FileInputStream fstream = new FileInputStream(
@@ -103,7 +114,8 @@ public class labels {
 			String strLine;
 			thelist= new ArrayList<label>();
 			// Read File Line By Line
-			while ((strLine = br.readLine()) != null) {
+			while ((strLine = br.readLine()) != null) 
+			{
 				StringTokenizer tokens=new StringTokenizer(strLine,",");
 				String s=tokens.nextToken();
 				String sn=tokens.nextToken();
@@ -112,16 +124,20 @@ public class labels {
 			}
 			br.close();
 			fstream.close();
-		} catch (IOException e) {
+		} 
+		catch (IOException e) 
+		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
-	public int max() {
+	public int max()
+	{
 		int m=0;
 		Iterator<label> Ilabel = thelist.iterator();
-		while (Ilabel.hasNext()) {
+		while (Ilabel.hasNext()) 
+		{
 			label l = Ilabel.next();
 			if (l.num>m) m=l.num;
 		}

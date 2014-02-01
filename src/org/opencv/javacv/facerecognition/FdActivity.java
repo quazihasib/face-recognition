@@ -52,12 +52,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-
-
-
-
-
-public class FdActivity extends Activity implements CvCameraViewListener2 {
+public class FdActivity extends Activity implements CvCameraViewListener2 
+{
 
     private static final String    TAG                 = "OCVSample::Activity";
     private static final Scalar    FACE_RECT_COLOR     = new Scalar(0, 255, 0, 255);
@@ -130,25 +126,27 @@ public class FdActivity extends Activity implements CvCameraViewListener2 {
     labels labelsFile;
     
     
-    private BaseLoaderCallback  mLoaderCallback = new BaseLoaderCallback(this) {
+    private BaseLoaderCallback  mLoaderCallback = new BaseLoaderCallback(this)
+    {
         @Override
-        public void onManagerConnected(int status) {
-            switch (status) {
+        public void onManagerConnected(int status)
+        {
+            switch (status)
+            {
                 case LoaderCallbackInterface.SUCCESS:
                 {
                     Log.i(TAG, "OpenCV loaded successfully");
 
                     // Load native library after(!) OpenCV initialization
-                 //   System.loadLibrary("detection_based_tracker");
+                    // System.loadLibrary("detection_based_tracker");
             
-                    
- 
                     fr=new PersonRecognizer(mPath);
                     String s = getResources().getString(R.string.Straininig);
                     Toast.makeText(getApplicationContext(),s, Toast.LENGTH_LONG).show();
                     fr.load();
                     
-                    try {
+                    try 
+                    {
                         // load cascade file from application resources
                         InputStream is = getResources().openRawResource(R.raw.lbpcascade_frontalface);
                         File cascadeDir = getDir("cascade", Context.MODE_PRIVATE);
@@ -164,35 +162,40 @@ public class FdActivity extends Activity implements CvCameraViewListener2 {
                         os.close();
 
                         mJavaDetector = new CascadeClassifier(mCascadeFile.getAbsolutePath());
-                        if (mJavaDetector.empty()) {
+                        if (mJavaDetector.empty()) 
+                        {
                             Log.e(TAG, "Failed to load cascade classifier");
                             mJavaDetector = null;
-                        } else
+                        }
+                        else
                             Log.i(TAG, "Loaded cascade classifier from " + mCascadeFile.getAbsolutePath());
 
        //                 mNativeDetector = new DetectionBasedTracker(mCascadeFile.getAbsolutePath(), 0);
 
                         cascadeDir.delete();
 
-                    } catch (IOException e) {
+                    }
+                    catch (IOException e) 
+                    {
                         e.printStackTrace();
                         Log.e(TAG, "Failed to load cascade. Exception thrown: " + e);
                     }
 
                     mOpenCvCameraView.enableView();
               
-                } break;
+                }
+                break;
                 default:
                 {
                     super.onManagerConnected(status);
-                } break;
-                
-                
+                } 
+                break;
             }
         }
     };
 
-    public FdActivity() {
+    public FdActivity()
+    {
         mDetectorName = new String[2];
         mDetectorName[JAVA_DETECTOR] = "Java";
         mDetectorName[NATIVE_DETECTOR] = "Native (tracking)";
@@ -202,7 +205,8 @@ public class FdActivity extends Activity implements CvCameraViewListener2 {
 
     /** Called when the activity is first created. */
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         Log.i(TAG, "called onCreate");
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -221,9 +225,11 @@ public class FdActivity extends Activity implements CvCameraViewListener2 {
         Iv=(ImageView)findViewById(R.id.imageView1);
         textresult = (TextView) findViewById(R.id.textView1);
         
-        mHandler = new Handler() {
+        mHandler = new Handler() 
+        {
             @Override
-            public void handleMessage(Message msg) {
+            public void handleMessage(Message msg) 
+            {
             	if (msg.obj=="IMG")
             	{
             	 Canvas canvas = new Canvas();
@@ -273,8 +279,10 @@ public class FdActivity extends Activity implements CvCameraViewListener2 {
       
         toggleButtonGrabar.setVisibility(View.INVISIBLE);
         
-        buttonCatalog.setOnClickListener(new View.OnClickListener() {
-        	public void onClick(View view) {
+        buttonCatalog.setOnClickListener(new View.OnClickListener()
+        {
+        	public void onClick(View view)
+        	{
         		Intent i = new Intent(org.opencv.javacv.facerecognition.FdActivity.this,
         				org.opencv.javacv.facerecognition.ImageGallery.class);
         		i.putExtra("path", mPath);
@@ -283,8 +291,10 @@ public class FdActivity extends Activity implements CvCameraViewListener2 {
         	});
         
         
-        text.setOnKeyListener(new View.OnKeyListener() {
-        	public boolean onKey(View v, int keyCode, KeyEvent event) {
+        text.setOnKeyListener(new View.OnKeyListener()
+        {
+        	public boolean onKey(View v, int keyCode, KeyEvent event) 
+        	{
         		if ((text.getText().toString().length()>0)&&(toggleButtonTrain.isChecked()))
         			toggleButtonGrabar.setVisibility(View.VISIBLE);
         		else
@@ -296,9 +306,12 @@ public class FdActivity extends Activity implements CvCameraViewListener2 {
 			
 
         
-		toggleButtonTrain.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				if (toggleButtonTrain.isChecked()) {
+		toggleButtonTrain.setOnClickListener(new View.OnClickListener()
+		{
+			public void onClick(View v)
+			{
+				if (toggleButtonTrain.isChecked()) 
+				{
 					textState.setText(getResources().getString(R.string.SEnter));
 					buttonSearch.setVisibility(View.INVISIBLE);
 					textresult.setVisibility(View.VISIBLE);
@@ -313,7 +326,9 @@ public class FdActivity extends Activity implements CvCameraViewListener2 {
 					ivRed.setVisibility(View.INVISIBLE);
 					
 
-				} else {
+				} 
+				else 
+				{
 					textState.setText(R.string.Straininig); 
 					textresult.setText("");
 					text.setVisibility(View.INVISIBLE);
@@ -336,16 +351,20 @@ public class FdActivity extends Activity implements CvCameraViewListener2 {
         
      
 
-        toggleButtonGrabar.setOnClickListener(new View.OnClickListener() {
+        toggleButtonGrabar.setOnClickListener(new View.OnClickListener()
+        {
 
-			public void onClick(View v) {
+			public void onClick(View v)
+			{
 				grabarOnclick();
 			}
 		});
         
-        imCamera.setOnClickListener(new View.OnClickListener() {
+        imCamera.setOnClickListener(new View.OnClickListener()
+        {
 
-			public void onClick(View v) {
+			public void onClick(View v) 
+			{
 				
 				if (mChooseCamera==frontCam)
 				{
@@ -361,8 +380,8 @@ public class FdActivity extends Activity implements CvCameraViewListener2 {
 			}
 		});
         
-        buttonSearch.setOnClickListener(new View.OnClickListener() {
-
+        buttonSearch.setOnClickListener(new View.OnClickListener() 
+        {
      			public void onClick(View v) {
      				if (buttonSearch.isChecked())
      				{
@@ -431,29 +450,34 @@ public class FdActivity extends Activity implements CvCameraViewListener2 {
       	
     }
 
-    public void onDestroy() {
+    public void onDestroy()
+    {
         super.onDestroy();
         mOpenCvCameraView.disableView();
     }
 
-    public void onCameraViewStarted(int width, int height) {
+    public void onCameraViewStarted(int width, int height) 
+    {
         mGray = new Mat();
         mRgba = new Mat();
     }
 
-    public void onCameraViewStopped() {
+    public void onCameraViewStopped()
+    {
         mGray.release();
         mRgba.release();
     }
 
-    public Mat onCameraFrame(CvCameraViewFrame inputFrame) {
+    public Mat onCameraFrame(CvCameraViewFrame inputFrame) 
+    {
 
         mRgba = inputFrame.rgba();
         mGray = inputFrame.gray();
 
         if (mAbsoluteFaceSize == 0) {
             int height = mGray.rows();
-            if (Math.round(height * mRelativeFaceSize) > 0) {
+            if (Math.round(height * mRelativeFaceSize) > 0) 
+            {
                 mAbsoluteFaceSize = Math.round(height * mRelativeFaceSize);
             }
           //  mNativeDetector.setMinFaceSize(mAbsoluteFaceSize);
@@ -461,16 +485,20 @@ public class FdActivity extends Activity implements CvCameraViewListener2 {
 
         MatOfRect faces = new MatOfRect();
 
-        if (mDetectorType == JAVA_DETECTOR) {
+        if (mDetectorType == JAVA_DETECTOR)
+        {
+        	// TODO: objdetect.CV_HAAR_SCALE_IMAGE
             if (mJavaDetector != null)
-                mJavaDetector.detectMultiScale(mGray, faces, 1.1, 2, 2, // TODO: objdetect.CV_HAAR_SCALE_IMAGE
+                mJavaDetector.detectMultiScale(mGray, faces, 1.1, 2, 2, 
                         new Size(mAbsoluteFaceSize, mAbsoluteFaceSize), new Size());
         }
-        else if (mDetectorType == NATIVE_DETECTOR) {
+        else if (mDetectorType == NATIVE_DETECTOR) 
+        {
 //            if (mNativeDetector != null)
 //                mNativeDetector.detect(mGray, faces);
         }
-        else {
+        else 
+        {
             Log.e(TAG, "Detection method is not selected!");
         }
 
@@ -531,7 +559,8 @@ public class FdActivity extends Activity implements CvCameraViewListener2 {
 
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
         Log.i(TAG, "called onCreateOptionsMenu");
         if (mOpenCvCameraView.numberCameras()>1)
         {
@@ -549,7 +578,8 @@ public class FdActivity extends Activity implements CvCameraViewListener2 {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item) 
+    {
         Log.i(TAG, "called onOptionsItemSelected; selected item: " + item);
 //        if (item == mItemFace50)
 //            setMinFaceSize(0.5f);
@@ -586,12 +616,14 @@ public class FdActivity extends Activity implements CvCameraViewListener2 {
         return true;
     }
 
-    private void setMinFaceSize(float faceSize) {
+    private void setMinFaceSize(float faceSize)
+    {
         mRelativeFaceSize = faceSize;
         mAbsoluteFaceSize = 0;
     }
 
-    private void setDetectorType(int type) {
+    private void setDetectorType(int type)
+    {
 //        if (mDetectorType != type) {
 //            mDetectorType = type;
 //

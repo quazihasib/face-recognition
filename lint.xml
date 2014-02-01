@@ -1,3 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lint>
+    <issue id="NewApi">
+        <ignore path="src\org\opencv\javacv\facerecognition\FdActivity.java" />
+        <ignore path="src\org\opencv\javacv\facerecognition\Tutorial3View.java" />
+    </issue>
 </lint>
